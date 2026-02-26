@@ -47,5 +47,6 @@ struct VideoListView: View {
             }
         }
         .navigationTitle("Propagate")
+        .navigationSubtitle("Recents")
     }
 }
