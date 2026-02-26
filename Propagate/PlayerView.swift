@@ -22,6 +22,7 @@ struct PlayerView: View {
                 Player(player: player)
                     .ignoresSafeArea()
             } else {
+                // This displays as the player is being created.
                 ProgressView()
             }
         }
