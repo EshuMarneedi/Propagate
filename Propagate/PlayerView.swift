@@ -3,6 +3,7 @@
 //  Propagate
 //
 //  Created by Eshu Marneedi on 2/26/26.
+//  Copyright © 2026 Eshu Marneedi. All rights reserved.
 //
 
 import AVKit

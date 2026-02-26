@@ -2,6 +2,9 @@
 //  VideoHistoryItem.swift
 //  Propagate
 //
+//  Created by Eshu Marneedi on 2/25/26.
+//  Copyright © 2026 Eshu Marneedi. All rights reserved.
+//
 
 import Foundation
 import SwiftData

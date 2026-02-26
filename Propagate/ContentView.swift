@@ -3,10 +3,16 @@
 //  Propagate
 //
 //  Created by Eshu Marneedi on 2/25/26.
+//  Copyright © 2026 Eshu Marneedi. All rights reserved.
 //
 
 import SwiftData
 import SwiftUI
+
+// The URL that we pass in must be identifiable, as we use it as a Binding to show the full-screen modal.
+extension URL: @retroactive Identifiable {
+    public var id: String { absoluteString }
+}
 
 struct ContentView: View {
     // We need to store the URL of the video on disk. (This comes from Files.)
@@ -28,13 +34,9 @@ struct ContentView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: Binding(
-            get: { selectedVideoURL != nil },
-            set: { if !$0 { selectedVideoURL = nil } }
-        )) {
-            if let url = selectedVideoURL {
-                VideoPlayerView(url: url)
-            }
+        // Shows the player in a fullScreenCover modality. We need the item initializer to pass in the URL when creating the sheet.
+        .fullScreenCover(item: $selectedVideoURL) { url in
+            VideoPlayerView(url: url)
         }
         // When the openedURL is changed — either when a user taps a video in the list or opens one from Files — the video is added to the model, and selectedVideoURL is set to that new openedURL. (We get openedURL from videoURL in the Scene.)
         .onChange(of: openedURL) {

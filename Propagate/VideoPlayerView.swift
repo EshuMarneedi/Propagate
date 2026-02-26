@@ -2,6 +2,9 @@
 //  VideoPlayerView.swift
 //  Propagate
 //
+//  Created by Eshu Marneedi on 2/25/26.
+//  Copyright © 2026 Eshu Marneedi. All rights reserved.
+//
 
 import AVFoundation
 import AVKit
@@ -13,6 +16,7 @@ struct VideoPlayerView: View {
     @State private var player: AVPlayer?
 
     var body: some View {
+        // Displays the player.
         ZStack {
             if let player {
                 PlayerView(player: player)
