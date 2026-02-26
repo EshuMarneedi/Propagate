@@ -27,6 +27,12 @@ struct PlayerView: View {
             }
         }
         .persistentSystemOverlays(.hidden)
+        // When the video is closed, deactivate the audio session and tell the system to resume previous playback.
+        .onDisappear {
+            player?.pause()
+            player = nil
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        }
         .task {
             // Activate the audio session only when a video is opened, so we don't interrupt background audio on app launch.
             let session = AVAudioSession.sharedInstance()
