@@ -36,7 +36,7 @@ struct ContentView: View {
         }
         // Shows the player in a fullScreenCover modality. We need the item initializer to pass in the URL when creating the sheet.
         .fullScreenCover(item: $selectedVideoURL) { url in
-            VideoPlayerView(url: url)
+            PlayerView(url: url)
         }
         // When the openedURL is changed — either when a user taps a video in the list or opens one from Files — the video is added to the model, and selectedVideoURL is set to that new openedURL. (We get openedURL from videoURL in the Scene.)
         .onChange(of: openedURL) {
