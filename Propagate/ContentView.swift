@@ -56,15 +56,15 @@ struct ContentView: View {
         let name = url.lastPathComponent
 
         // Remove existing entries with the same name to avoid duplicates.
-        let predicate = #Predicate<VideoHistoryItem> { $0.name == name }
+        let predicate = #Predicate<Video> { $0.name == name }
         if let existing = try? modelContext.fetch(FetchDescriptor(predicate: predicate)) {
             for item in existing {
                 modelContext.delete(item)
             }
         }
         
-        // Create the VideoHistoryItem object and insert it into the model.
-        let item = VideoHistoryItem(
+        // Create the Video object and insert it into the model.
+        let item = Video(
             name: name,
             bookmarkData: bookmarkData,
             dateOpened: .now
@@ -75,5 +75,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView(openedURL: .constant(nil))
-        .modelContainer(for: VideoHistoryItem.self, inMemory: true)
+        .modelContainer(for: Video.self, inMemory: true)
 }

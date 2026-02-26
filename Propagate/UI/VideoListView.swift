@@ -10,13 +10,13 @@ import SwiftData
 import SwiftUI
 
 struct VideoListView: View {
-    // Query the model for all video history items.
-    @Query(sort: \VideoHistoryItem.dateOpened, order: .reverse) private var items: [VideoHistoryItem]
+    // Query the model for all videos.
+    @Query(sort: \Video.dateOpened, order: .reverse) private var items: [Video]
     
     // Bring in the model context.
     @Environment(\.modelContext) private var modelContext
 
-    var onSelect: (VideoHistoryItem) -> Void
+    var onSelect: (Video) -> Void
 
     var body: some View {
         Group {

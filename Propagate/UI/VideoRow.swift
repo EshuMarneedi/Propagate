@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct VideoRow: View {
-    let item: VideoHistoryItem
+    let item: Video
 
     var body: some View {
         Label {

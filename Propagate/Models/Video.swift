@@ -1,5 +1,5 @@
 //
-//  VideoHistoryItem.swift
+//  Video.swift
 //  Propagate
 //
 //  Created by Eshu Marneedi on 2/25/26.
@@ -11,8 +11,8 @@ import SwiftData
 
 // This SwiftData model stores a video in memory.
 @Model
-final class VideoHistoryItem {
-    #Unique<VideoHistoryItem>([\.name])
+final class Video {
+    #Unique<Video>([\.name])
 
     var name: String
     var bookmarkData: Data

@@ -23,6 +23,6 @@ struct PropagateApp: App {
                 }
         }
         // Inject the model container into the view.
-        .modelContainer(for: VideoHistoryItem.self)
+        .modelContainer(for: Video.self)
     }
 }
