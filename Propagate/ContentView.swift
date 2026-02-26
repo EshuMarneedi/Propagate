@@ -30,6 +30,7 @@ struct ContentView: View {
                 // Validates the URL and assigns it to selectedVideoURL. This happens when a cell in VideoListView is tapped on — opening videos from Files doesn't execute this code. The app starts with selectedVideoURL as nil because it is optional.
                 if let url = item.resolveURL() {
                     _ = url.startAccessingSecurityScopedResource()
+                    item.dateOpened = .now
                     selectedVideoURL = url
                 }
             }
