@@ -16,6 +16,7 @@ struct VideoListView: View {
     // Bring in the model context.
     @Environment(\.modelContext) private var modelContext
 
+    // This closure works in ContentView, validating the URL and opening the modal. 
     var onSelect: (Video) -> Void
 
     var body: some View {

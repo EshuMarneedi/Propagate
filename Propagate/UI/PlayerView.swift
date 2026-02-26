@@ -39,10 +39,9 @@ struct PlayerView: View {
             try? session.setCategory(.playback, mode: .moviePlayback)
             try? session.setActive(true)
             
-            // Create the player for the video. (This has no UI — the UI is PlayerView, which requires an AVPlayer object.)
-            let newPlayer = AVPlayer(url: url)
-            player = newPlayer
-            newPlayer.play()
+            // Create the AVPlayer for the video with the URL, then tell it to play. (This has no UI — the UI is Player, which requires an AVPlayer object.)
+            player = AVPlayer(url: url)
+            player?.play()
         }
     }
 }
