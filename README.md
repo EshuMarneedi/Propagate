@@ -17,7 +17,9 @@ Propagate works with any cloud provider you have set up in Files, such as iCloud
 ### Build
 Propagate is not available on the App Store because I think it’s too simple and probably wouldn’t clear App Review. You can, however, build the app for yourself. You don’t need a paid developer account, but one is recommended. Just run this command in your terminal, or ask [Claude](https://claude.ai) to do it for you: 
 
-`git clone https://github.com/EshuMarneedi/Propagate.git`
+```
+git clone https://github.com/EshuMarneedi/Propagate.git
+```
 
 You can override the Xcode settings for code signing: Open the project, click Propagate in the sidebar, click the Propagate target in the new pane, go to Signing and Capabilities, and change the team to None. Change nothing else. You should now be able to run Propagate on your device. (Again, you can optionally choose your own development team if you have a paid developer account.)
 
