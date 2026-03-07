@@ -27,21 +27,24 @@ struct PlayerView: View {
             }
         }
         .persistentSystemOverlays(.hidden)
-        // When the video is closed, deactivate the audio session and tell the system to resume previous playback.
-        .onDisappear {
-            player?.pause()
-            player = nil
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-        }
-        .task {
-            // Activate the audio session only when a video is opened, so we don't interrupt background audio on app launch.
-            let session = AVAudioSession.sharedInstance()
-            try? session.setCategory(.playback, mode: .moviePlayback)
-            try? session.setActive(true)
-            
-            // Create the AVPlayer for the video with the URL, then tell it to play. (This has no UI — the UI is Player, which requires an AVPlayer object.)
-            player = AVPlayer(url: url)
-            player?.play()
-        }
+        .onDisappear(perform: tearDownPlayer)
+        .task { await setUpPlayer() }
+    }
+
+    // Activates the audio session and starts playback.
+    private func setUpPlayer() async {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .moviePlayback)
+        try? session.setActive(true)
+
+        player = AVPlayer(url: url)
+        player?.play()
+    }
+
+    // Pauses the player and deactivates the audio session so previous playback can resume.
+    private func tearDownPlayer() {
+        player?.pause()
+        player = nil
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 }
