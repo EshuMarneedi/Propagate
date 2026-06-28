@@ -23,6 +23,13 @@ git clone https://github.com/EshuMarneedi/Propagate.git
 
 You can override the Xcode settings for code signing: Open the project, click Propagate in the sidebar, click the Propagate target in the new pane, go to Signing and Capabilities, and change the team to None. Change nothing else. You should now be able to run Propagate on your device. (Again, you can optionally choose your own development team if you have a paid developer account.)
 
+If you use AI coding agents, the `AGENTS.md` file instructs them to use these skills and connectors:
+
+- `SwiftUI-Pro`, by Paul Hudson ([download here](https://github.com/twostraws/SwiftUI-Agent-Skill/tree/main)).
+- `SwiftData-Pro`, by Paul Hudson ([download here](https://github.com/twostraws/SwiftData-Agent-Skill)).
+- `SwiftUI-Guidelines`, by Apple (install Xcode 27 and run `xcrun agents skills export` in Terminal).
+- Sosumi ([install here](https://sosumi.ai))
+
 ### Contributions
 Propagate is not my job (I can’t believe this needs to be said), and I’m not a maintainer. As such, it is closed for contributions. You can fork the project and do anything you would like with it. More power to you. The code is available under an MIT License.
 

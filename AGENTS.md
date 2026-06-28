@@ -4,7 +4,6 @@
 - Before editing any code in this project, you **must** first read your `SwiftUI-Pro` skill (third-party code style guidelines) and `SwiftUI-Guidelines` (first-party recommendations from Apple) skill. Do not edit code without reading these skills. You need not read this skill if you are not editing code.
 - If you are editing SwiftData code, use the `SwiftData-Pro` skill.
 - Currently soft-deprecated APIs as of iOS 27 — and their replacements — are listed in the `SwiftUI-Guidelines` skill. Do not use these soft-deprecated APIs. If you see one being used in the codebase, replace it with its alternative.
-- For Codex only: Use the `Build iOS Apps` and `Build macOS Apps` plugins when making edits. Other agents: disregard.
 
 ## Fetching Up-To-Date Documentation 
 
