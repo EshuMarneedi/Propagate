@@ -1,58 +1,55 @@
 # AGENTS.md: Adhere to these instructions when writing Swift and SwiftUI code in this repository.
 
-## Fetching Up-to-Date API Documentation
+## Required Project Skills
+- Before editing any code in this project, you **must** first read your `SwiftUI-Pro` skill (third-party code style guidelines) and `SwiftUI-Guidelines` (first-party recommendations from Apple) skill. Do not edit code without reading these skills. You need not read this skill if you are not editing code.
+- If you are editing SwiftData code, use the `SwiftData-Pro` skill.
+- Currently soft-deprecated APIs as of iOS 27 — and their replacements — are listed in the `SwiftUI-Guidelines` skill. Do not use these soft-deprecated APIs. If you see one being used in the codebase, replace it with its alternative.
+- For Codex only: Use the `Build iOS Apps` and `Build macOS Apps` plugins when making edits. Other agents: disregard.
 
-Always use the sosumi MCP connector whenever you're dealing with SwiftUI code. Many APIs will be used that you are not familiar with. It is also possible that the implementations you know are now deprecated. The sosumi MCP connector gives you up-to-date information about the latest Apple APIs. You can search using the searchAppleDocumentation tool, get a readable version of documentation you already know using fetchAppleDocumentation, and view documentation using doc://{path}. 
+## Fetching Up-To-Date Documentation 
 
-When you use this connector, it’s best to first perform a web search to find the path to Apple documentation, after which you can use fetchAppleDocumentation as part of sosumi. This is because, when you perform a web search and try to access a developer.apple.com link, it will return an error that JavaScript must be enabled. sosumi allows you to bypass this JavaScript requirement.
+Always use the Sosumi MCP connector when working with SwiftUI code. APIs you know of may be deprecated, and new APIs may be available. The Sosumi MCP connector gives you up-to-date information about the latest Apple APIs. You can search using the searchAppleDocumentation tool, get a readable version of documentation you already know using fetchAppleDocumentation, and view documentation using `doc://{path}`. 
+
+It may be best to first perform a web search to find the path to Apple documentation, after which you can use fetchAppleDocumentation as part of Sosumi. When you perform a web search and try to access a developer.apple.com link, it will return an error that JavaScript must be enabled. Sosumi allows you to bypass this JavaScript requirement.
 
 ## Core Instructions
 
-- Target iOS 26.0 or later. (Yes, it definitely exists.)
+- Target iOS/iPadOS/visionOS 26 and newer. (iOS 27 is currently available in beta.) 
 - Swift 6.2 or later, using modern Swift concurrency.
-- SwiftUI backed up by @Observable classes for shared data.
+- SwiftUI backed up by `@Observable` classes for shared data.
 - Do not introduce third-party frameworks without asking first.
 - Avoid UIKit unless requested.
 
-## Swift Language Instructions
+## Project Information
 
-- Always mark @Observable classes with @MainActor.
-- Assume strict Swift concurrency rules are being applied.
-- Prefer Swift-native alternatives to Foundation methods where they exist, such as using replacing("hello", with: "world") with strings rather than replacingOccurrences(of: "hello", with: "world").
-- Prefer modern Foundation API, for example URL.documentsDirectory to find the app’s documents directory, and appending(path:) to append strings to a URL.
-- Never use C-style number formatting such as Text(String(format: "%.2f", abs(myNumber))); always use Text(abs(change), format: .number.precision(.fractionLength(2))) instead.
-- Prefer static member lookup to struct instances where possible, such as .circle rather than Circle(), and .borderedProminent rather than BorderedProminentButtonStyle().
-- Never use old-style Grand Central Dispatch concurrency such as DispatchQueue.main.async(). If behavior like this is needed, always use modern Swift concurrency.
-- Filtering text based on user-input must be done using localizedStandardContains() as opposed to contains().
-- Avoid force unwraps and force try unless it is unrecoverable.
-
-## SwiftUI-specific instructions
-
-- Always use `foregroundStyle()` instead of `foregroundColor()`.
-- Always use `clipShape(.rect(cornerRadius:))` instead of `cornerRadius()`.
-- Always use the `Tab` API instead of `tabItem()`.
-- Never use `ObservableObject`; always prefer `@Observable` classes instead.
-- Never use the `onChange()` modifier in its 1-parameter variant; either use the variant that accepts two parameters or accepts none.
-- Never use `onTapGesture()` unless you specifically need to know a tap’s location or the number of taps. All other usages should use `Button`.
-- Never use `Task.sleep(nanoseconds:)`; always use `Task.sleep(for:)` instead.
-- Never use `UIScreen.main.bounds` to read the size of the available space.
-- Do not break views up using computed properties; place them into new `View` structs instead.
-- Do not force specific font sizes; prefer using Dynamic Type instead.
-- Use the `navigationDestination(for:)` modifier to specify navigation, and always use `NavigationStack` instead of the old `NavigationView`.
-- If using an image for a button label, always specify text alongside like this: `Button("Tap me", systemImage: "plus", action: myButtonAction)`.
-- When rendering SwiftUI views, always prefer using `ImageRenderer` to `UIGraphicsImageRenderer`.
-- Don’t apply the `fontWeight()` modifier unless there is good reason. If you want to make some text bold, always use `bold()` instead of `fontWeight(.bold)`.
-- Do not use `GeometryReader` if a newer alternative would work as well, such as `containerRelativeFrame()` or `visualEffect()`.
-- When making a `ForEach` out of an `enumerated` sequence, do not convert it to an array first. So, prefer `ForEach(x.enumerated(), id: \.element.id)` instead of `ForEach(Array(x.enumerated()), id: \.element.id)`.
-- When hiding scroll view indicators, use the `.scrollIndicators(.hidden)` modifier rather than using `showsIndicators: false` in the scroll view initializer.
-- Place view logic into view models or similar, so it can be tested.
-- Avoid `AnyView` unless it is absolutely required.
-- Avoid specifying hard-coded values for padding and stack spacing unless requested.
-- Avoid using UIKit colors in SwiftUI code.
+- This app is a simple video player for iOS that receives and stores local videos from the Files app. The player is in `PlayerView.swift`, and a list of recently watched videos is in `VideoListView.swift`. 
+- The `AVPlayerViewController`, responsible for viewing videos, is created in `Player.swift` using `UIViewControllerRepresentable`. The app is written in SwiftUI, except for the video player.
+- `PlayerView.swift` displays `Player.swift` and sets up and tears down the player when opened.
+- A SwiftData model, `Video.swift`, is used to store recently watched videos.
+- Data flow for videos from Files:
+  - A URL comes in from Files through `PropagateApp.swift`. It is validated and passed to `ContentView` as `openedURL`. 
+  - The `onChange` modifier on `ContentView` watches for changes in `openedURL`, and if a change is detected, adds the video to the model context, converts the URL to an Identifiable URL through `IdentifiableURL.swift`, and assigns it to`selectedVideoURL`.
+  - A `fullScreenCover`  on `ContentView` watches for changes on `selectedVideoURL` and displays `PlayerView` with that URL.
+- Data flow for stored videos:
+  - When a video is tapped in `VideoListView`, it invokes a closure, which is acted upon in `ContentView`. 
+  - In `ContentView`, the item comes in from `VideoListView`’s closure, the URL is validated and converted to an Identifiable URL, and is assigned to `selectedVideoURL`. 
+  - A `fullScreenCover`  on `ContentView` watches for changes on `selectedVideoURL` and displays `PlayerView` with that URL.
 
 ## Project Structure
-
-- Use a consistent project structure, with folder layout determined by app features.
+- Use a consistent project structure with folders. 
+- Write understandable, **Swift-native**, human-readable code. Think about core computer science principles like encapsulation, abstraction, code reuse, cohesion, and data flow. Never write more code than you absolutely must, and always think about the most efficient way of solving a problem.
 - Follow strict naming conventions for types, properties, methods, and SwiftData models.
-- Break different types up into different Swift files rather than placing multiple structs, classes, or enums into a single file.
-- Add code comments and documentation comments as needed.
+- Generally, break different types up into different Swift files rather than placing multiple structs, classes, or enums into a single file.
+- Add code comments and documentation comments **only as needed**. Be brief and informative in your comments. **Do not** split comments onto multiple lines.
+
+## Specific Swift and SwiftUI Reminders
+
+- Do not use deprecated APIs. You can find soft-deprecated APIs in the SwiftUI skills. If you suspect an API may be deprecated, look it up using Sosumi. 
+- Always mark `@Observable` classes with `@MainActor`.
+- Assume strict Swift concurrency rules are being applied.
+- Place view logic into view models or similar. The app should be extensible. 
+- Do not force specific font sizes; prefer using Dynamic Type instead.
+- Do not use `NavigationView`, as it is deprecated. Use `NavigationStack` instead.
+- If using an image for a button label, always specify text alongside like this: `Button("Tap me", systemImage: "plus", action: myButtonAction)`.
+- Always use `foregroundStyle()` instead of `foregroundColor()`.
+- Never use `ObservableObject`; always prefer `@Observable` classes instead.

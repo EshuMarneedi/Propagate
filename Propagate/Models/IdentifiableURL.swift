@@ -8,7 +8,7 @@
 
 import Foundation
 
-// Makes the URL identifable. 
+// Makes the URL identifiable.
 struct IdentifiableURL: Identifiable {
     let url: URL
     var id: String { url.absoluteString }
